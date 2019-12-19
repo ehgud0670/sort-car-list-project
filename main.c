@@ -1,8 +1,6 @@
-
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-
 
 # define MAX 512
 # define ROW 600 
@@ -24,18 +22,17 @@
 # define REMOVE_ITEM(items,item,num,len) \
   (items)->item[num/len] &= ~(1 << (num%len))   
 
-
-typedef enum car_type{
-	CELL_DX,    
-	SPORTS_CAR, 
-	SUV,   		 
-	WAGON,  		 
-	MINIVAN,    
-	PICKUP,    
-	AWD,  			 
-	BWD,
+typedef enum car_type {
+  CELL_DX,    
+  SPORTS_CAR, 
+  SUV,   		 
+  WAGON,  		 
+  MINIVAN,    
+  PICKUP,    
+  AWD,  			 
+  BWD,
   MAX_ITEM_COUNT = 1024 
-}car_type;
+} car_type;
 
 int len = MAX_ITEM_COUNT/(sizeof(unsigned int)*8);
 
@@ -89,10 +86,8 @@ void add_front(struct node *s, struct node* new) {
 }
 
 void check_type(Car *car,char **type1,char **type2){
-
-
-	// type1
-	if( HAS_ITEM(&car -> types,type,CELL_DX,len))
+  // type1
+  if( HAS_ITEM(&car -> types,type,CELL_DX,len))
 		*type1 = strdup("CellDx");
 	else if( HAS_ITEM(&car -> types,type,SPORTS_CAR,len))
 		*type1 = strdup("Sports Car");
@@ -112,8 +107,6 @@ void check_type(Car *car,char **type1,char **type2){
 		*type2 = strdup("BWD");
 	else 
 		*type2 = strdup("None");
-
-
 }
 
 void print_list(struct node *head) {
@@ -141,7 +134,6 @@ void print_list(struct node *head) {
 }
 
 void print_car(Car *car, FILE *snapshot){
-
 	char *type1;
 	char *type2;
 	check_type(car,&type1,&type2);
@@ -188,15 +180,16 @@ Car* make_Car(char *buf ){
 	char *p;
 
 
-	enum car_type car_types[8]={
-		CELL_DX, 
+  enum car_type car_types[8]={
+    CELL_DX, 
 		SPORTS_CAR, 
 		SUV, 		 
 		WAGON, 
 		MINIVAN, 
 		PICKUP, 
 		AWD, 
-		BWD};
+		BWD
+	};
 
 	for(i=0,p=strtok(buf,",");p!=NULL; p = strtok(NULL,","),i++){
 
@@ -262,7 +255,6 @@ int compare_ascending(const void *a , const void *b){
 		case 4:
 			return A -> width - B-> width;
 	}
-
 }
 
 int compare_descending(const void *a , const void *b){
