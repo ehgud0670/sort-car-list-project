@@ -1,35 +1,35 @@
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-# define MAX 512
-# define ROW 600 
+#define MAX 512
+#define ROW 600 
 // strdup(): 동적할당도 하면서 값의 복사도 해주는 함수
 //Vehicle Name,CellDx,Sports Car,SUV,Wagon,Minivan,Pickup,AWD,RWD,Retail Price,Dealer Cost,EngineSize,Weight,Width
 
 #define list_entry(ptr, type, member) \
-	(type*)((char*)ptr - (unsigned long)&(((type*)0)->member))
+  (type*)((char*)ptr - (unsigned long)&(((type*)0)->member))
 
-# define ADD_ITEM(items,item,num,len) \
+#define ADD_ITEM(items,item,num,len) \
   (items)->item[num/len] |= 1 << (num%len)   
 
-//# define HAS_ITEM  /
-# define HAS_ITEM(items,item,num,len) \
+//HAS_ITEM  /
+#define HAS_ITEM(items,item,num,len) \
   (items)->item[num/len] & 1 << (num%len)   
 
 
-//# define REMOVE_ITEM /
-# define REMOVE_ITEM(items,item,num,len) \
+//REMOVE_ITEM /
+#define REMOVE_ITEM(items,item,num,len) \
   (items)->item[num/len] &= ~(1 << (num%len))   
 
 typedef enum car_type {
   CELL_DX,    
   SPORTS_CAR, 
-  SUV,   		 
-  WAGON,  		 
+  SUV,       
+  WAGON,       
   MINIVAN,    
   PICKUP,    
-  AWD,  			 
+  AWD,         
   BWD,
   MAX_ITEM_COUNT = 1024 
 } car_type;
@@ -97,7 +97,7 @@ void check_type(Car *car,char **type1,char **type2){
   else
     *type1 = strdup("Pickup");
 
-	//type2
+  //type2
   if(HAS_ITEM(&car -> types,type,AWD,len)) 
     *type2 = strdup("AWD");
   else if(HAS_ITEM(&car -> types,type,BWD,len)) 
@@ -108,7 +108,7 @@ void check_type(Car *car,char **type1,char **type2){
 
 void print_list(struct node *head) {
   struct node *current = head->next;
-	system("clear");
+  system("clear");
 
   printf("<head> ");
   while (current != head) {
@@ -170,13 +170,13 @@ Car* make_Car(char *buf ){
     fprintf(stderr, "malloc error! \n");  
     return NULL;    
   }//malloc 안될시 오류 검사. 이러한 사소한거라도 오류 검사를 해야한다. 나중에 이러한 사소한 문제에 프로그램이 오류가 나므로!
-	// malloc 오류는 더이상 할당할 메모리가 없을 때 발생한다.
+  // malloc 오류는 더이상 할당할 메모리가 없을 때 발생한다.
 
   char *p;
   enum car_type car_types[8]={
     CELL_DX, 
     SPORTS_CAR, 
-    SUV, 		 
+    SUV,     
     WAGON, 
     MINIVAN, 
     PICKUP, 
@@ -211,7 +211,7 @@ Car* make_Car(char *buf ){
        break; 
     } 
   }
-	return car;
+  return car;
 }
 
 int compare_idx = 0;
@@ -264,7 +264,7 @@ int compare_descending(const void *a , const void *b) {
       return B -> weight - A-> weight;
     case 4:
       return B -> width - A-> width;
-	}
+  }
 
 }
 int filter(Car **car, struct node *head,int sel_type,int sel_info ,int sel_flow){
@@ -273,7 +273,7 @@ int filter(Car **car, struct node *head,int sel_type,int sel_info ,int sel_flow)
   car_type car_types[8] ={
     CELL_DX, 
     SPORTS_CAR, 
-    SUV, 		 
+    SUV,     
     WAGON, 
     MINIVAN, 
     PICKUP, 
@@ -316,20 +316,20 @@ int main(){
   FILE *fp;
   char buf[MAX];
   int i;
-	Car *car; //변수로 배열을 선언하면 그만큼 메모리 할당이되므로 메모리 낭비가 심하다. 따라서 포인터 배열을 선언하고 
-	//이후 각 element에 동적할당(malloc)을 사용하자.
+  Car *car; //변수로 배열을 선언하면 그만큼 메모리 할당이되므로 메모리 낭비가 심하다. 따라서 포인터 배열을 선언하고 
+  //이후 각 element에 동적할당(malloc)을 사용하자.
 
-	// 1. 파일 열기 
+  // 1. 파일 열기 
   fp = fopen("car_data.csv", "r");
   if(fp == NULL){
     fprintf(stderr,"error!! file not exist ...\n"); //sterr을 리다이렉션으로 사용하려면 2> 으로 사용하자.
     return 1;
-	}
+  }
 
   //한 줄씩 받기.   
   i=0; 
   while(fgets(buf,MAX,fp) != NULL){  //  == while(fgets(buf,MAX,fp))
-    if(++i == 0) // 첫줄은 무시한다. if문은 모든 i가 들어가므로 i를 +1하는 기능도 있다.    	     
+    if(++i == 0) // 첫줄은 무시한다. if문은 모든 i가 들어가므로 i를 +1하는 기능도 있다.          
     continue;
 
     //1     
@@ -345,12 +345,12 @@ int main(){
   }
 
   i -= 1; // 첫줄 빼기
-	//print_list(&head);
+  //print_list(&head);
 
   int flag =0;
 
   printf("(총 %d의 데이터가 로드되었습니다.) \n",i);
-	
+  
   while(1){
     int option;
     int sel_type;
