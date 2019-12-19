@@ -61,7 +61,7 @@ typedef struct car{
   int width;
   
   struct node links;
-}Car;
+} Car;
 
 struct node head = { &head, &head };
 
@@ -220,7 +220,6 @@ int compare_ascending(const void *a , const void *b) {
 
   Car *A = *(Car**)a;
   Car *B = *(Car**)b;
-
   switch(compare_idx - 1) {
     case 0:
       return A -> retail_price - B-> retail_price;
@@ -231,14 +230,13 @@ int compare_ascending(const void *a , const void *b) {
         return 1;
       else
         return -1;
-			break;
-			/* double일때
-				 단순히 빼주면 -0.1을 0으로 인식하기 때문에(compare는 int로 반환하기에)
-				 return 1, return -1로 명시하는 것이 좋다.
-				 또 실수 자료형 자체가 오차가 있는 자료형이기에 서로 같은 경우는 return 0하지 않는다. (오차가 있으므로 애초에 같을리가 없다.)
+      break;
+     /* double일때
+     단순히 빼주면 -0.1을 0으로 인식하기 때문에(compare는 int로 반환하기에)
+     return 1, return -1로 명시하는 것이 좋다.
+     또 실수 자료형 자체가 오차가 있는 자료형이기에 서로 같은 경우는 return 0하지 않는다. (오차가 있으므로 애초에 같을리가 없다.)
 
-				 그리고 abs(a-b)<0.0001 이러한 코드도 사용할 수 있지만, a,b가 같다하면 서로 0.00001만큼 차이가 나도 sort해줄수 없기때문에 이런 코드는 사용하지 말하야 한다.
-			 */
+     그리고 abs(a-b)<0.0001 이러한 코드도 사용할 수 있지만, a,b가 같다하면 서로 0.00001만큼 차이가 나도 sort해줄수 없기때문에 이런 코드는 사용하지 말하야 한다. */
     case 3:
       return A -> weight - B-> weight;
     case 4:
@@ -265,7 +263,7 @@ int compare_descending(const void *a , const void *b) {
     case 3:
       return B -> weight - A-> weight;
     case 4:
-			return B -> width - A-> width;
+      return B -> width - A-> width;
 	}
 
 }
@@ -377,10 +375,10 @@ int main(){
         printf("3. SUV \n");
         printf("4. Wagon \n");
         printf("5. Minivan \n");
-				printf("6. Pickup \n");
-				printf("7. AWD \n");
-				printf("8. RWD \n");
-				printf("선택 > ");
+        printf("6. Pickup \n");
+        printf("7. AWD \n");
+        printf("8. RWD \n");
+        printf("선택 > ");
         scanf("%d",&sel_type);
 
         printf("1. Retail Price \n");
