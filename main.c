@@ -10,17 +10,14 @@
 #define list_entry(ptr, type, member) \
   (type*)((char*)ptr - (unsigned long)&(((type*)0)->member))
 
-#define ADD_ITEM(items,item,num,len) \
-  (items)->item[num/len] |= 1 << (num%len)   
+#define ADD_ITEM(items, item, num, len) \
+  (items) -> item[num/len] |= 1 << (num % len)   
 
-//HAS_ITEM  /
-#define HAS_ITEM(items,item,num,len) \
-  (items)->item[num/len] & 1 << (num%len)   
+#define HAS_ITEM(items, item, num, len) \
+  (items) -> item[num/len] & 1 << (num % len)   
 
-
-//REMOVE_ITEM /
 #define REMOVE_ITEM(items,item,num,len) \
-  (items)->item[num/len] &= ~(1 << (num%len))   
+  (items) -> item[num/len] &= ~(1 << (num % len))   
 
 typedef enum car_type {
   CELL_DX,    
@@ -51,7 +48,7 @@ struct node {
 };
 
 //Car의 멤버는 총 8개.
-typedef struct car{
+typedef struct car {
   char *name; 
   bitset types;
   int retail_price; 
@@ -66,33 +63,31 @@ typedef struct car{
 struct node head = { &head, &head };
 
 void __add_node(struct node *prev, struct node* next, struct node* new) {
-  new->next = next;
-  new->prev = prev;
-  prev->next = new;
-  next->prev = new;
+  new -> next = next;
+  new -> prev = prev;
+  prev -> next = new;
+  next -> prev = new;
 }
 
-// s, s->next, new
 void add_next(struct node *s, struct node* new) {
-  __add_node(s, s->next, new);
+  __add_node(s, s -> next, new);
 }
 
-// s->prev, s, new
 void add_front(struct node *s, struct node* new) {
-  __add_node(s->prev, s, new);
+  __add_node(s -> prev, s, new);
 }
 
 void check_type(Car *car,char **type1,char **type2){
   // type1
-  if( HAS_ITEM(&car -> types,type,CELL_DX,len))
+  if( HAS_ITEM(&car -> types ,type ,CELL_DX ,len))
     *type1 = strdup("CellDx");
-  else if( HAS_ITEM(&car -> types,type,SPORTS_CAR,len))
+  else if( HAS_ITEM(&car -> types ,type ,SPORTS_CAR ,len))
     *type1 = strdup("Sports Car");
-  else if( HAS_ITEM(&car -> types,type,SUV,len))
+  else if( HAS_ITEM(&car -> types ,type ,SUV ,len))
     *type1 = strdup("SUV");
-  else if( HAS_ITEM(&car -> types,type,WAGON,len))
+  else if( HAS_ITEM(&car -> types ,type ,WAGON ,len))
     *type1 = strdup("Wagon");
-  else if( HAS_ITEM(&car -> types,type,MINIVAN,len))
+  else if( HAS_ITEM(&car -> types ,type ,MINIVAN ,len))
     *type1 = strdup("Minivan");
   else
     *type1 = strdup("Pickup");
@@ -107,7 +102,7 @@ void check_type(Car *car,char **type1,char **type2){
 }
 
 void print_list(struct node *head) {
-  struct node *current = head->next;
+  struct node *current = head -> next;
   system("clear");
 
   printf("<head> ");
@@ -118,8 +113,8 @@ void print_list(struct node *head) {
     Car *car = list_entry(current, Car, links);
     check_type(car, &type1, &type2);
 
-    printf(" -> [%s, %s, %s]\n", car->name, type1, type2);
-    current = current->next;
+    printf(" -> [%s, %s, %s]\n", car -> name, type1, type2);
+    current = current -> next;
 
     free(type1);
     free(type2);
@@ -236,7 +231,7 @@ int compare_ascending(const void *a , const void *b) {
      return 1, return -1로 명시하는 것이 좋다.
      또 실수 자료형 자체가 오차가 있는 자료형이기에 서로 같은 경우는 return 0하지 않는다. (오차가 있으므로 애초에 같을리가 없다.)
 
-     그리고 abs(a-b)<0.0001 이러한 코드도 사용할 수 있지만, a,b가 같다하면 서로 0.00001만큼 차이가 나도 sort해줄수 없기때문에 이런 코드는 사용하지 말하야 한다. */
+     그리고 abs(a - b) < 0.0001 이러한 코드도 사용할 수 있지만, a , b가 같다하면 서로 0.00001만큼 차이가 나도 sort해줄수 없기때문에 이런 코드는 사용하지 말하야 한다. */
     case 3:
       return A -> weight - B-> weight;
     case 4:
@@ -292,7 +287,7 @@ int filter(Car **car, struct node *head,int sel_type,int sel_info ,int sel_flow)
     //check_type(car, &type1, &type2);
 
     // 1st filter
-    if(HAS_ITEM(&curcar->types,type,car_types[sel_type-1],len))
+    if(HAS_ITEM(&curcar -> types, type, car_types[sel_type-1], len))
       car[count++] = curcar;    
 
     current = current -> next;
@@ -306,8 +301,8 @@ int filter(Car **car, struct node *head,int sel_type,int sel_info ,int sel_flow)
     qsort(car, count, sizeof(Car*), compare_descending); 
 
   int i;
-  for(i=0;i<count;i++)
-    print_car(car[i],NULL);
+  for(i = 0;i < count;i++)
+    print_car(car[i] , NULL);
 
   return count;
 }
@@ -341,13 +336,13 @@ int main(){
     car = make_Car(buf);
     if (car == NULL)
       continue;
-    add_front(&head,&car->links);
+    add_front(&head , &car -> links);
   }
 
   i -= 1; // 첫줄 빼기
   //print_list(&head);
 
-  int flag =0;
+  int flag = 0;
 
   printf("(총 %d의 데이터가 로드되었습니다.) \n",i);
   
